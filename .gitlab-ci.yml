@@ -77,8 +77,10 @@ generate_integration_tests:
     - echo "CI_DEV_PKG_NAME -> $CI_DEV_PKG_NAME"
     - echo "CI_DEV_PKG_VERSION -> $CI_DEV_PKG_VERSION"
     - echo "CI_DEV_PKG_PATH -> $CI_DEV_PKG_PATH"
+    - CI_TARGET_BRANCH=$(julia --project /QEDjl/.ci/integTestGen/src/get_target_branch.jl)
+    - echo "CI_TARGET_BRANCH -> $CI_TARGET_BRANCH"
     - >
-      if $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_REF_NAME == "dev" ]]; then
+      if [[ $CI_TARGET_BRANCH != "main" ]]; then
         julia --project=. /QEDjl/.ci/SetupDevEnv/src/SetupDevEnv.jl ${CI_PROJECT_DIR}/Project.toml
       fi
     - cd /QEDjl/.ci/integTestGen/
