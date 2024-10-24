@@ -82,7 +82,7 @@ generate_integration_tests:
     - echo "CI_TARGET_BRANCH -> $CI_TARGET_BRANCH"
     - >
       if [[ $CI_TARGET_BRANCH != "main" ]]; then
-        julia --project=. /QEDjl/.ci/SetupDevEnv/src/SetupDevEnv.jl ${CI_PROJECT_DIR}/Project.toml
+        julia --project=/QEDjl /QEDjl/.ci/SetupDevEnv/src/SetupDevEnv.jl ${CI_PROJECT_DIR}/Project.toml
       fi
     - cd /QEDjl/.ci/integTestGen/
     - julia --project=. -e 'import Pkg; Pkg.instantiate()'
