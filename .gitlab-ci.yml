@@ -68,8 +68,6 @@ unit_tests_nightly:
 
 generate_integration_tests:
   image: julia:1.10
-generate_integration_tests:
-  image: julia:1.10
   stage: generate_integration_test
   script:
     # extract package name
@@ -79,6 +77,10 @@ generate_integration_tests:
     - echo "CI_DEV_PKG_NAME -> $CI_DEV_PKG_NAME"
     - echo "CI_DEV_PKG_VERSION -> $CI_DEV_PKG_VERSION"
     - echo "CI_DEV_PKG_PATH -> $CI_DEV_PKG_PATH"
+    - >
+      if $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_REF_NAME == "dev" ]]; then
+        julia --project=. /QEDjl/.ci/SetupDevEnv/src/SetupDevEnv.jl ${CI_PROJECT_DIR}/Project.toml
+      fi
     - cd /QEDjl/.ci/integTestGen/
     - julia --project=. -e 'import Pkg; Pkg.instantiate()'
     # paths of artifacts are relative to CI_PROJECT_DIR
